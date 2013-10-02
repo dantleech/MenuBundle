@@ -35,9 +35,18 @@ class Content implements MenuNodeReferrersInterface, RouteReferrersReadInterface
      */
     protected $menuNodes;
 
+    /**
+     * @PHPCRODM\Referrers(
+     *     referringDocument="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route",
+     *     referencedBy="content"
+     * )
+     */
+    protected $routes;
+
     public function __construct()
     {
         $this->menuNodes = new ArrayCollection();
+        $this->routes = new ArrayCollection();
     }
 
     public function getId()
@@ -70,6 +79,12 @@ class Content implements MenuNodeReferrersInterface, RouteReferrersReadInterface
         $this->menuNodes->add($menuNode);
     }
 
+    public function addRoute($route)
+    {
+        $this->routes->add($route);
+    }
+
+
     public function removeMenuNode(NodeInterface $menuNode)
     {
         $this->menuNodes->remove($menuNode);
@@ -77,6 +92,8 @@ class Content implements MenuNodeReferrersInterface, RouteReferrersReadInterface
 
     public function getRoutes()
     {
-        return array(new Route('http://www.example.com/content'));
+        foreach ($this->routes as $route) {
+        }
+        return $this->routes;
     }
 }
